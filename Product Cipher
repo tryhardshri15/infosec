@@ -1,0 +1,34 @@
+PRODUCT CIPHER (RAIL FENCE * CAESAR)
+
+def caesar(text, shift):
+    result = ""
+    for char in text:
+        if char.isalpha():
+            base = 65 if char.isupper() else 97
+            result += chr((ord(char) - base + shift) % 26 + base)
+        else:
+            result += char
+    return result
+
+
+def rail_fence_encrypt(text, key):
+    if key <= 1:
+        return text
+
+    rail = ['' for _ in range(key)]
+    row, direction = 0, 1
+
+    for char in text:
+        rail[row] += char
+        row += direction
+
+        if row == 0 or row == key - 1:
+            direction *= -1
+
+    return ''.join(rail)
+
+
+def product_cipher_encrypt(text):
+    step1 = caesar(text, 3)
+    step2 = rail_fence_encrypt(step1, 3)
+    return step2
