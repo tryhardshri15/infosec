@@ -1,0 +1,48 @@
+MONOALPHABETIC CIPHER: 
+
+import string
+import random
+
+letters = list(string.ascii_lowercase)
+shuffled = letters.copy()
+random.shuffle(shuffled)
+
+key_map = dict(zip(letters, shuffled))
+reverse_map = {v: k for k, v in key_map.items()}
+
+def encrypt(text):
+    return ''.join(key_map.get(c, c) for c in text.lower())
+
+def decrypt(text):
+    return ''.join(reverse_map.get(c, c) for c in text.lower())
+
+msg = "hello"
+enc = encrypt(msg)
+print("Encrypted:", enc)
+print("Decrypted:", decrypt(enc))
+
+
+
+POLYALPHABETIC CIPHER: 
+
+def vigenere_encrypt(text, key):
+    result = ""
+    key = key.lower()
+    for i, char in enumerate(text):
+        if char.isalpha():
+            shift = ord(key[i % len(key)]) - 97
+            result += chr((ord(char.lower()) - 97 + shift) % 26 + 97)
+        else:
+            result += char
+    return result
+
+def vigenere_decrypt(text, key):
+    result = ""
+    key = key.lower()
+    for i, char in enumerate(text):
+        if char.isalpha():
+            shift = ord(key[i % len(key)]) - 97
+            result += chr((ord(char) - 97 - shift) % 26 + 97)
+        else:
+            result += char
+    return result
