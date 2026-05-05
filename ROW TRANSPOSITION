@@ -1,0 +1,25 @@
+ROW TRANSPOSITION CIPHER
+
+def row_transposition_encrypt(text, key):
+    text = text.replace(" ", "")
+    cols = len(key)
+    rows = (len(text) + cols - 1) // cols
+
+    # Fill matrix with padding 'X'
+    matrix = [['X' for _ in range(cols)] for _ in range(rows)]
+
+    k = 0
+    for i in range(rows):
+        for j in range(cols):
+            if k < len(text):
+                matrix[i][j] = text[k]
+                k += 1
+
+    result = ""
+
+    # Read columns in sorted key order
+    for col_index in sorted(range(cols), key=lambda x: key[x]):
+        for row in matrix:
+            result += row[col_index]
+
+    return result
